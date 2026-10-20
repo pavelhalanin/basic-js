@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../lib');
+const { NotImplementedError } = require("../lib");
 
 /**
  * Create transformed array based on the control sequences that original
@@ -13,11 +13,64 @@ const { NotImplementedError } = require('../lib');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  *
  */
-function transform(/* arr */) {
-  // Remove line below and write your code here
-  throw new NotImplementedError('Not implemented');
+function transform(arr) {
+  if (!Array.isArray(arr)) {
+    throw new Error("'arr' parameter must be an instance of the Array!");
+  }
+
+  const RESULT_ARRAY = [];
+
+  let discardNext = false;
+  for (let i = 0; i < arr.length; i++) {
+    const ELEMENT = arr[i];
+
+    switch (ELEMENT) {
+      case "--double-next":
+        if (i >= arr.length - 1) {
+          break;
+        }
+
+        RESULT_ARRAY.push(arr[i + 1]);
+        discardNext = false;
+        break;
+
+      case "--double-prev":
+        if (discardNext) {
+          discardNext = false;
+          break;
+        }
+
+        if (i == 0) {
+          break;
+        }
+
+        RESULT_ARRAY.push(arr[i - 1]);
+        break;
+
+      case "--discard-prev":
+        if (discardNext) {
+          discardNext = false;
+          break;
+        }
+
+        RESULT_ARRAY.pop();
+        break;
+
+      case "--discard-next":
+        i += 1;
+        discardNext = true;
+        break;
+
+      default:
+        RESULT_ARRAY.push(ELEMENT);
+        discardNext = false;
+        break;
+    }
+  }
+
+  return RESULT_ARRAY;
 }
 
 module.exports = {
-  transform
+  transform,
 };
