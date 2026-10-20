@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../lib');
+const { NotImplementedError } = require("../lib");
 
 /**
  * Calculate turns number and time (in seconds) required
@@ -14,11 +14,20 @@ const { NotImplementedError } = require('../lib');
  * calculateHanoi(9, 4308) => { turns: 511, seconds: 427 }
  *
  */
-function calculateHanoi(/* disksNumber, turnsSpeed */) {
-  // Remove line below and write your code here
-  throw new NotImplementedError('Not implemented');
+function calculateHanoi(disksNumber, turnsSpeed) {
+  const N = disksNumber;
+  const V = turnsSpeed;
+
+  const T = 2 ** N - 1;
+  const T_HOUR = T / V;
+  const T_SECONDS = T_HOUR * 3600;
+
+  return {
+    turns: T,
+    seconds: Math.floor(T_SECONDS),
+  };
 }
 
 module.exports = {
-  calculateHanoi
+  calculateHanoi,
 };
